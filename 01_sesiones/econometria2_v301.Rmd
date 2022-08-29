@@ -1,0 +1,67 @@
+---
+title: "Econometría II: \nAnálisis de regresión con datos de series de tiempo"
+subtitle: "Universidad Centroamericana - Economía Aplicada 2022s2"
+author: "Alvaro López-Espinoza"
+institution: "Universidad Centroamericana"
+output:
+  tufte::tufte_html: default
+---
+
+```{r setup, include=FALSE}
+library(tufte)
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(cache.extra = packageVersion('tufte'))
+options(htmltools.dir.version = FALSE)
+```
+
+# Sesión 1: Introducción a las series de tiempo
+
+## Datos de la sesión
+
+**Fecha de la sesión:** 2022-08-29
+
+**Lecturas obligatorias:**
+
+- Wooldridge - Cap. 10.1-10.2
+- Shmueli & Lichtendahl - Cap. 2
+
+**Lecturas opcionales:**
+
+
+## Naturaleza de las series de tiempo
+
+Existen 4 estructuras básicas de datos^[**Revisar:** Wooldridge - Cap. 1.3]: 
+
+- Datos de corte tranversal: Muestra de unidades tomadas en algún punto dado en el tiempo. 
+
+- Datos de combinación de cortes transversales: Combinación de dos o más muestras de datos de corte transversal.
+
+- **Datos de series de tiempo**: Observaciones de una o varias variables a lo largo del tiempo.
+
+- Datos panel: Serie de tiempo po cada unidad de una base de datos de corte transversal.
+
+Características de las series de tiempo:
+
+- Orden temporal: El pasado afecta al futuro
+
+- Aleatoriedad en las series de tiempo: Los datos como resultados de variables aleatorias.
+
+
+
+
+
+
+
+
+```{marginfigure, echo = TRUE} 
+
+
+```
+
+
+
+
+
+
+
+
