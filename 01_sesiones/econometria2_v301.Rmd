@@ -253,6 +253,13 @@ Bajo la hipótesis nula, cada estadístico $t$ tiene una distribución $t$, y ca
 
 # S3: Introducción a R
 
+## 3.1. Datos de la sesión
+
+**Fecha de la sesión:** 
+2022-09-05
+
+## 3.2. Script
+
 ```{marginfigure}
 **Tomado de:** Healy, K. (2008). Data Visualization. A practical introduction (https://socviz.co).
 ```
