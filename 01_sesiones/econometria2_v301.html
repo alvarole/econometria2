@@ -497,6 +497,64 @@ condicionales sobre <span class="math inline">\(\textbf{X}\)</span>.</p>
 usual de los intervalos de confianza.</p>
 </div>
 </div>
+<div id="s3-introducción-a-r" class="section level1">
+<h1>S3: Introducción a R</h1>
+<p><label for="tufte-mn-8" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-8" class="margin-toggle"><span class="marginnote"><span style="display: block;"><strong>Tomado
+de:</strong> Healy, K. (2008). Data Visualization. A practical
+introduction (<a href="https://socviz.co" class="uri">https://socviz.co</a>).</span></span></p>
+<p>Les comparto el script de la clase de hoy.</p>
+<pre class="r"><code># Instalacion de paquetes
+my_packages &lt;- c(&quot;tidyverse&quot;, &quot;broom&quot;, &quot;coefplot&quot;, &quot;cowplot&quot;,
+                 &quot;gapminder&quot;, &quot;GGally&quot;, &quot;ggrepel&quot;, &quot;ggridges&quot;, &quot;gridExtra&quot;,
+                 &quot;here&quot;, &quot;interplot&quot;, &quot;margins&quot;, &quot;maps&quot;, &quot;mapproj&quot;,
+                 &quot;mapdata&quot;, &quot;MASS&quot;, &quot;quantreg&quot;, &quot;rlang&quot;, &quot;scales&quot;,
+                 &quot;survey&quot;, &quot;srvyr&quot;, &quot;viridis&quot;, &quot;viridisLite&quot;, &quot;devtools&quot;)
+
+install.packages(my_packages, repos = &quot;http://cran.rstudio.com&quot;)
+
+## Uso de librerias
+library(devtools)
+install_github(&quot;kjhealy/socviz&quot;)
+devtools::install_github(&quot;kjhealy/socviz&quot;)
+
+# Introduccion
+## Librerias
+library(tidyverse)
+library(socviz)
+library(gapminder)
+
+## Objetos
+c (1, 2, 3, 1, 3, 5, 25)
+my_numbers &lt;- c (1, 2, 3, 1, 3, 5, 25)
+your_numbers &lt;- c(5, 31, 29, 4, 89, 43)
+
+my_numbers
+your_numbers
+
+## Funciones
+### Help
+? mean
+
+mean(my_numbers)
+mean_my_numbers &lt;- mean(my_numbers)
+
+# Dataframes
+titanic
+class(titanic)
+class(my_numbers)
+class(my_packages)
+titanic$percent
+
+## Crear un data frame
+url &lt;- &quot;https://cdn.rawgit.com/kjhealy/viz-organdata/master/organdonation.csv&quot;
+organs &lt;- read_csv(file = url)
+
+# Plots
+gapminder
+p &lt;- ggplot(data = gapminder,
+       mapping  = aes(x = gdpPercap, y = lifeExp))
+p + geom_point()</code></pre>
+</div>
 
 
 
