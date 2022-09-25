@@ -319,3 +319,114 @@ p <- ggplot(data = gapminder,
        mapping  = aes(x = gdpPercap, y = lifeExp))
 p + geom_point()
 ```
+
+# S4: Gráficos y series de tiempo en R
+
+## 4.1. Datos de la sesión
+
+**Fecha de la sesión:** 
+2022-09-12
+
+## 4.2. Script
+
+```{r, echo = T, eval = FALSE, error=FALSE, warning=FALSE, message=FALSE}
+install.packages("fpp")
+install.packages("Ecdat")
+install.packages("forecast")
+
+
+# Librerias ----
+library(fpp)
+library(forecast)
+
+# Descomposicion de TS aditiva ----
+data(ausbeer)
+tibble::tibble(data(ausbeer))
+ts_beer = tail(head(ausbeer, 17*4+2), 17*4-4)
+ts_beer <- as.ts(ts_beer)
+plot(ts_beer)
+
+## Tendencia-ciclo ----
+
+trend_beer <- ma(ts_beer, order = 4, centre = T)
+trend_beer <- as.ts(trend_beer)
+plot(ts_beer)
+lines(trend_beer)
+
+## Estacional-irregular ----
+detrend_beer <- as.ts(ts_beer - trend_beer)
+plot(detrend_beer)
+
+## Estacionalidad promedio ----
+seas_beer <-  t(matrix(data = detrend_beer, nrow = 4))
+seas_beer <- as.ts(rep(colMeans(seas_beer, na.rm = T), 16))
+plot(seas_beer)
+
+## Commando decompose
+ts_beer <- ts(ts_beer, frequency = 4)
+decompose_beer <- decompose(ts_beer, "additive")
+plot(as.ts(decompose_beer$trend))
+plot(as.ts(decompose_beer$seasonal))
+plot(as.ts(decompose_beer$random))
+plot(decompose_beer)
+
+# Descomposicion de TS multiplicativa ----
+decompose_beer <- decompose(ts_beer, "multiplicative")
+plot(as.ts(decompose_beer$trend))
+plot(as.ts(decompose_beer$seasonal))
+plot(as.ts(decompose_beer$random))
+plot(decompose_beer)
+```
+
+# S5: Tendencia y estacionalidad
+
+## 5.1. Datos de la sesión
+
+**Fecha de la sesión:** 
+2022-09-25
+
+**Lecturas obligatorias:**
+
+- Wooldridge - Cap. 10.5
+
+## 5.2. Caracterización
+
+**Tendencia lineal:**
+Si se mantienen fijos todos los demás factores, $\alpha_1$ mide el cambio en $y_t$ de un periodo al siguiente debido al transcurso del tiempo:
+
+$y_t = \alpha_0 + \alpha_1 t + e_t, \: t = 1, 2, \, ..., k$
+
+Si consideramos que $e_t$, es una secuencia independiente e idénticamente distribuida (i.i.d.), entonces:
+
+$\Delta y_t = y_t - y_{t-1} = \alpha_1$
+
+```{r, echo=FALSE}
+include_graphics('figures/fig_05_01.png')
+```
+
+**Tendencia exponencial:**
+
+Es cuando una serie de tiempo tiene la misma tasa de crecimiento de una período a otro.
+
+$log(y_t) = \beta_0 + \beta_1 t + e_t, \: t = 1, 2, \, ..., k$
+
+$\Delta log(y_t)  = \beta_1$
+
+$\Delta log(y_t) \approx \frac{y_t -  y_{t-1}}{y_{t-1}}$
+
+```{r, echo=FALSE}
+include_graphics('figures/fig_05_02.png')
+```
+
+## 5.3. Regresión espuria
+
+- Pueden existir factores inobservables con tendencia que afectan a $y_t$ que pueden estar correlaciones con las variables explicativas.
+
+- Esto puede derivar en establecer una relación falsa entre $y_t$ y una o más variables explicativas.
+ 
+ - Se debe de incluir la tendencia en el tiempo en el modelo:
+ 
+ $y_t = \beta_0 + \beta_1 x_{t1} + \beta_2 x_{t2} + \beta_3 t + u_t$
+
+- Se debe de incluir una tendencia en la regresión si alguna variable independiente tiene tendencia, incluso si $y_t$ no la tiene.
+
