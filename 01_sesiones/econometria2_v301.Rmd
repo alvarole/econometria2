@@ -430,3 +430,31 @@ include_graphics('figures/fig_05_02.png')
 
 - Se debe de incluir una tendencia en la regresión si alguna variable independiente tiene tendencia, incluso si $y_t$ no la tiene.
 
+## 5.4. Regresión en R
+
+```{r, echo = T, eval = FALSE, error=FALSE, warning=FALSE, message=FALSE}
+
+library(fpp)
+library(tidyverse)
+library(readxl)
+library(forecast)
+
+# Wooldridge - Ej. 10.7 (pág. 363)
+
+data_hseinv <- read_csv(url("https://raw.githubusercontent.com/alvarole/econometria2/main/02_data/wooldridge-hseinv.csv"))
+
+data_model <- data_hseinv %>%
+  select(year, t, linvpc, lprice)
+
+p <- ggplot(data_model, mapping = aes(x = year, y = linvpc))
+p + geom_line()
+
+p <- ggplot(data_model, mapping = aes(x = year, y = lprice))
+p + geom_line()
+
+lmodel <- lm(linvpc ~ lprice + year, data = data_model)
+summary(lmodel)
+
+lmodel <- lm(linvpc ~ lprice + t, data = data_model)
+summary(lmodel)
+````

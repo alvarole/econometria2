@@ -670,6 +670,32 @@ x_{t2} + \beta_3 t + u_t\)</span></p>
 independiente tiene tendencia, incluso si <span class="math inline">\(y_t\)</span> no la tiene.</li>
 </ul>
 </div>
+<div id="regresión-en-r" class="section level2">
+<h2>5.4. Regresión en R</h2>
+<pre class="r"><code>library(fpp)
+library(tidyverse)
+library(readxl)
+library(forecast)
+
+# Wooldridge - Ej. 10.7 (pág. 363)
+
+data_hseinv &lt;- read_csv(url(&quot;https://raw.githubusercontent.com/alvarole/econometria2/main/02_data/wooldridge-hseinv.csv&quot;))
+
+data_model &lt;- data_hseinv %&gt;%
+  select(year, t, linvpc, lprice)
+
+p &lt;- ggplot(data_model, mapping = aes(x = year, y = linvpc))
+p + geom_line()
+
+p &lt;- ggplot(data_model, mapping = aes(x = year, y = lprice))
+p + geom_line()
+
+lmodel &lt;- lm(linvpc ~ lprice + year, data = data_model)
+summary(lmodel)
+
+lmodel &lt;- lm(linvpc ~ lprice + t, data = data_model)
+summary(lmodel)</code></pre>
+</div>
 </div>
 
 
