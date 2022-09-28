@@ -458,3 +458,30 @@ summary(lmodel)
 lmodel <- lm(linvpc ~ lprice + t, data = data_model)
 summary(lmodel)
 ````
+
+# S6: Laboratorio No. 1
+
+## 6.1. Datos de la sesión
+
+**Fecha de la sesión:** 
+2022-09-26
+
+## 6.2. Creación de base de datos
+```{r, echo = T, eval = FALSE, error=FALSE, warning=FALSE, message=FALSE}
+# Librerias
+
+library(tidyverse)
+library(readxl)
+library(forecast)
+
+# Data cleaning
+data_lab1 <- read_csv(url("https://raw.githubusercontent.com/alvarole/econometria2/main/03_assignments/lab1_data.csv")) %>%
+  rename(pib = PIB,
+         consumo = "Consumo...4",
+         gasto = Gasto,
+         inversion = Inversion, 
+         export = Exportaciones,
+         import = Importaciones) %>% 
+  select(-"Consumo...3")
+```
+

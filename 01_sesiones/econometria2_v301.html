@@ -697,6 +697,31 @@ lmodel &lt;- lm(linvpc ~ lprice + t, data = data_model)
 summary(lmodel)</code></pre>
 </div>
 </div>
+<div id="s6-laboratorio-no.-1" class="section level1">
+<h1>S6: Laboratorio No. 1</h1>
+<div id="datos-de-la-sesión-5" class="section level2">
+<h2>6.1. Datos de la sesión</h2>
+<p><strong>Fecha de la sesión:</strong> 2022-09-26</p>
+</div>
+<div id="creación-de-base-de-datos" class="section level2">
+<h2>6.2. Creación de base de datos</h2>
+<pre class="r"><code># Librerias
+
+library(tidyverse)
+library(readxl)
+library(forecast)
+
+# Data cleaning
+data_lab1 &lt;- read_csv(url(&quot;https://raw.githubusercontent.com/alvarole/econometria2/main/03_assignments/lab1_data.csv&quot;)) %&gt;%
+  rename(pib = PIB,
+         consumo = &quot;Consumo...4&quot;,
+         gasto = Gasto,
+         inversion = Inversion, 
+         export = Exportaciones,
+         import = Importaciones) %&gt;% 
+  select(-&quot;Consumo...3&quot;)</code></pre>
+</div>
+</div>
 
 
 
