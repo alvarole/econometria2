@@ -484,12 +484,6 @@ data_lab1 <- read_csv(url("https://raw.githubusercontent.com/alvarole/econometri
          import = Importaciones) %>% 
   select(-"Consumo...3")
 ```
-# S8: Examen No. 1
-
-## 8.1. Datos de la sesión
-
-**Fecha de la sesión:** 
-2022-10-03
 
 # S7: Estacionariedad y dependencia (1)
 
@@ -529,9 +523,9 @@ $Corr(x_t, x_{t+h}) → 0$  cuando $h → \infty$. se dice que están no correla
 El supuesto decisivo para la dependencia débil de un proceso AR(1) es la condición de estabilidad $E(y_0) = 0$ (Revisar Wooldridge, pág. 380 para más detalles.)
 ```
 
-# S9: Estacionariedad y dependencia (2)
+# S8: Estacionariedad y dependencia (2)
 
-## 9.1. Datos de la sesión
+## 8.1. Datos de la sesión
 
 **Fecha de la sesión:** 
 2022-10-05
@@ -540,7 +534,7 @@ El supuesto decisivo para la dependencia débil de un proceso AR(1) es la condic
 
 - Wooldridge - Cap. 11.1 & 11.3
 
-## 9.2. Procesos MA y AR
+## 8.2. Procesos MA y AR
 
 - La evolución de un proceso estocástico con base a una sucesión de choques aleatorios es un proceso de **media móvil (MA(q))**.
 
@@ -558,7 +552,7 @@ $y_t = p_1 y_{t-1} + e_{t}, \, t = 1, 2, ...., k$
 
 - El punto de partida es la secuencia es $y_0$ (en $t = 0$), y $e_t$ es una secuencia i.i.d. con media cero y varianza $\sigma_e^2$. También se supone que las $e_t$ son independientes de $y_0$ así como que $E(y_0) = 0$, y que $|p_1|<1$ para que las series sean débilmente dependientes.
 
-## 9.3. Procesos estocásticos altamente persistentes
+## 8.3. Procesos estocásticos altamente persistentes
 
 - Proceso de raíz unitaria viene del hecho de que $p_1 = 1$. 
 
@@ -577,162 +571,6 @@ $\Delta y_t = y_t - y_{t-1} = e_t, \, t = 2, 3, ...., k$
 Cuando las series en cuestión tienen una tendencia marcada hacia arriba o hacia abajo, es mejor obtener la autocorrelación de primer orden después de eliminar tal tendencia.
 ```
 
-# S10: Pruebas de raíz unitaria
-
-## 10.1. Datos de la sesión
-
-**Fecha de la sesión:** 
-2022-10-19
-
-## 10.2. Script
-
-```{r, echo = T, eval = FALSE, error=FALSE, warning=FALSE, message=FALSE}
-# Librerias ----
-library(dplyr)
-library(tidyverse)
-library(tseries)
-library(urca)
-library(lubridate)
-
-
-# Serie de ruido blanco
-white_noise <- rnorm(10000)
-ts.plot(white_noise)
-
-
-# Dickey-Fuller aumentada
-wn_adf <- ur.df(white_noise, type ="none", selectlags = "BIC")
-summary(wn_adf)
-
-# Phillip-Perron
-wn_pp <- ur.pp(white_noise, type = "Z-tau", model = "constant", lags = "short")
-summary(wn_pp)
-
-# KPSS
-wn_kpss <- ur.kpss(white_noise, type = "tau", use.lag = 1)
-summary(wn_kpss)
-
-# Data
-data(nporg)
-gnp <- nporg %>% select(gnp.r) %>% drop_na(gnp.r)
-gnp <- ts(gnp)
-ts.plot(gnp)
-
-d_gnp <- diff(gnp)
-ts.plot(d_gnp)
-ts.plot(white_noise)
-```
-
-# S11: Autocorrelación
-
-## 11.1. Datos de la sesión
-
-**Fecha de la sesión:** 
-2022-10-19
-
-**Lecturas obligatorias:**
-
-- Wooldridge - Cap. 12.1
-
-## Propiedadades de los MCO con errores correlacionados serialmente
-
-**Teorema ST.1: Insesgamiento de los estimadores de MCO**
-
-Bajo los supuestos ST.1, ST.2, y ST.3, los estimadores de MCO son insesgados condicionales sobre $\textbf{X}$, y por tanto también incondicionalmente: $\mathsf{E}(\widehat{\beta}_j)  = \beta_j, \, j = 0, \, 1, \, ..., \, k.$
-
-
-**Teorema ST.4: Teorema Gauss-Markov**
-
-Bajo los supuestos ST.1 a ST.5, los estimadores de MCO son los mejores estimadores lineales insesgados condicionales sobre $\textbf{X}$.
-
-- Los estimadores MCO ya no son BLUE en presencia de correlación serial.
-
-- Los errores estándar usuales de MCO y los estadísticos de prueba pierden validez.
-
-- El estimador usual de la varianza es sesgado para $Var(\widehat{\beta}_1)$ en presencia de correlación serial.
-
-# S12: Autocorrelación en R
-
-## 12.1. Datos de la sesión
-
-**Fecha de la sesión:** 
-2022-10-19
-
-## 12.2. Script
-```{r, echo = T, eval = FALSE, error=FALSE, warning=FALSE, message=FALSE}
-
-# Librerias ----
-library(dplyr)
-library(tidyverse)
-library(tseries)
-library(purrr)
-library(urca)
-# devtools::install_github("KevinKotze/tsm")
-library(tsm)
-library(forecast)
-
-
-# Serie AR
-set.seed(123)
-
-x <- arima.sim(model = list(ar = 0.8), n = 1000)
-plot.ts(x)
-
-ac(x, max.lag = 30)
-
-Box.test(x, lag = 1, type = "Ljung-Box")
-
-q.stat <- rep(0, 10)
-q.prob <- rep(0, 10)
-
-for (i in 1:10) {
-  q.stat[i] <- Box.test(x, lag = i, type = "Ljung-Box")$statistic
-  q.prob[i] <- Box.test(x, lag = i, type = "Ljung-Box")$p.value
-  
-}
-
-par(mfrow = c(1, 2))
-plot(q.stat)
-plot(q.prob)
-
-arima100 <- arima(x, order = c(1, 0, 0), include.mean  = FALSE)
-arima100
-
-par(mfrow = c(1, 1))
-plot(arima100$residuals)
-
-ac(arima100$residuals, max.lag = 30)
-
-for (i in 1:10) {
-  q.stat[i] <- Box.test(arima100$residuals, lag = i, type = "Ljung-Box")$statistic
-  q.prob[i] <- Box.test(arima100$residuals, lag = i, type = "Ljung-Box")$p.value
-}
-
-plot(q.stat)
-plot(q.prob)
-
-# Serie MA
-y <- arima.sim(model = list(ma = 0.8), n = 1000)
-plot(y)
-
-ac(y, max.lag = 30)
-
-arima001 <- arima(y, order = c(0, 0, 1), include.mean  = FALSE)
-ac(arima001$residuals, max.lag = 30)
-
-# Serie ARMA
-z <- arima.sim(model = list(ar = c(0.6, -0.2), ma = c(0.4)), n = 1000)
-ac(z, max.lag = 30)
-
-arima302 <- arima(z, order = c(3, 0, 2), include.mean  = FALSE)
-ac(arima302$residuals, max.lag = 30)
-
-arima201 <- arima(z, order = c(2, 0, 1), include.mean  = FALSE)
-ac(arima201$residuals, max.lag = 30)
-
-arima302$aic
-arima201$aic
-```
 
 
 

@@ -722,6 +722,294 @@ data_lab1 &lt;- read_csv(url(&quot;https://raw.githubusercontent.com/alvarole/ec
   select(-&quot;Consumo...3&quot;)</code></pre>
 </div>
 </div>
+<div id="s8-examen-no.-1" class="section level1">
+<h1>S8: Examen No. 1</h1>
+<div id="datos-de-la-sesión-6" class="section level2">
+<h2>8.1. Datos de la sesión</h2>
+<p><strong>Fecha de la sesión:</strong> 2022-10-03</p>
+</div>
+</div>
+<div id="s7-estacionariedad-y-dependencia-1" class="section level1">
+<h1>S7: Estacionariedad y dependencia (1)</h1>
+<div id="datos-de-la-sesión-7" class="section level2">
+<h2>7.1. Datos de la sesión</h2>
+<p><strong>Fecha de la sesión:</strong> 2022-09-29</p>
+<p><strong>Lecturas obligatorias:</strong></p>
+<ul>
+<li>Wooldridge - Cap. 11.1</li>
+</ul>
+</div>
+<div id="estacionariedad" class="section level2">
+<h2>7.2. Estacionariedad</h2>
+<ul>
+<li><p>Simplifica los enunciados de la ley de los grandes números y el
+teorema del límite central para los procesos estocásticos.</p></li>
+<li><p>Un <strong>proceso estocástico estacionario</strong> es aquel en
+el que sus distribuciones de probabilidad se mantienen estables con el
+paso del tiempo.</p></li>
+<li><p><strong>Formalmente:</strong> El proceso estocástico <span class="math inline">\({x_t: \, t = 1, 2, …}\)</span> es estacionario si
+para cada conjunto de índices temporales <span class="math inline">\(1
+\leq t_1 &lt; t_2 &lt; … &lt; t_m\)</span>, la distribución conjunta de
+<span class="math inline">\((x_{t_1}, x_{t_2}, …, x_{t_m})\)</span> es
+la misma que la distribución conjunta de <span class="math inline">\((x_{t_1+h}, x_{t_2+h}, …, x_{t_m+h})\)</span> para
+todos los enteros <span class="math inline">\(h \geq
+1\)</span>.</p></li>
+<li><p>Es decir, si se toma cualquier colección de variables aleatorias
+de la secuencia y se las desplaza <span class="math inline">\(h\)</span>
+periodos, la <strong>distribución de probabilidad conjunta permanece
+inalterada</strong>.</p></li>
+<li><p><strong>Proceso estacionario en covarianza:</strong> Un proceso
+estocástico <span class="math inline">\({x_t: \, t = 1, 2, …}\)</span>
+con un segundo momento finito <span class="math inline">\([E(x_t^2)&lt;
+\infty]\)</span> es estacionario en covarianza si i) <span class="math inline">\(E(x_t)\)</span> es constante; ii) <span class="math inline">\(Var(x_t)\)</span> es constante; y iii) para
+cualquier <span class="math inline">\(t\)</span>, <span class="math inline">\(h \leq 1\)</span>, la <span class="math inline">\(Cov(x_t, x_{t+h})\)</span> depende sólo de <span class="math inline">\(h\)</span> no de <span class="math inline">\(t\)</span>.</p></li>
+</ul>
+</div>
+<div id="dependencia" class="section level2">
+<h2>7.3. Dependencia</h2>
+<ul>
+<li><p><strong>Dependencia</strong>: Se dice que un proceso de serie de
+tiempo estacionario <span class="math inline">\({x_t: \, t = 1, 2,
+…}\)</span> es débilmente dependiente si <span class="math inline">\(x_t\)</span> y <span class="math inline">\(x_{t+h}\)</span> son “casi independientes” a
+medida que <span class="math inline">\(h\)</span> aumenta sin
+límite.</p></li>
+<li><p>Una serie de tiempo estacionaria en covarianza es débilmente
+dependiente si la correlación entre <span class="math inline">\(x_t\)</span> y <span class="math inline">\(x_{t+h}\)</span> se vuelve cero con la “suficiente
+rapidez” cuando <span class="math inline">\(h →
+\infty\)</span>.</p></li>
+<li><p>Las secuencias estacionarias en covarianza donde la <span class="math inline">\(Corr(x_t, x_{t+h}) → 0\)</span> cuando <span class="math inline">\(h → \infty\)</span>. se dice que están no
+correlacionadas asintóticamente.</p></li>
+<li><p>Los procesos MA y AR son secuencias débilmente
+dependiente.</p></li>
+</ul>
+<p><label for="tufte-mn-9" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-9" class="margin-toggle"><span class="marginnote"><span style="display: block;">El supuesto decisivo
+para la dependencia débil de un proceso AR(1) es la condición de
+estabilidad <span class="math inline"><span class="math inline">\(E(y_0)
+= 0\)</span></span> (Revisar Wooldridge, pág. 380 para más
+detalles.)</span></span></p>
+</div>
+</div>
+<div id="s9-estacionariedad-y-dependencia-2" class="section level1">
+<h1>S9: Estacionariedad y dependencia (2)</h1>
+<div id="datos-de-la-sesión-8" class="section level2">
+<h2>9.1. Datos de la sesión</h2>
+<p><strong>Fecha de la sesión:</strong> 2022-10-05</p>
+<p><strong>Lecturas obligatorias:</strong></p>
+<ul>
+<li>Wooldridge - Cap. 11.1 &amp; 11.3</li>
+</ul>
+</div>
+<div id="procesos-ma-y-ar" class="section level2">
+<h2>9.2. Procesos MA y AR</h2>
+<ul>
+<li><p>La evolución de un proceso estocástico con base a una sucesión de
+choques aleatorios es un proceso de <strong>media móvil
+(MA(q))</strong>.</p></li>
+<li><p>Un proceso MA de orden uno (MA(1)) tiene la forma:</p></li>
+</ul>
+<p><span class="math inline">\(x_t = e_t + \alpha_1 e_{t-1}, \, t = 1,
+2, ...., k\)</span></p>
+<ul>
+<li><p>Es decir, <span class="math inline">\(x_t\)</span> es un promedio
+ponderado de <span class="math inline">\(e_t\)</span> y <span class="math inline">\(e_{t-1}\)</span>, y <span class="math inline">\(e_t\)</span> es una secuencia i.i.d. con media
+cero y varianza <span class="math inline">\(\sigma_e^2\)</span>.</p></li>
+<li><p>La evolución de un proceso estocástico con base del valor de la
+serie de uno o más períodos anteriores y un término estocástico es un
+proceso <strong>autorregresivo (AR(p))</strong>.</p></li>
+<li><p>Un proceso AR de orden uno (AR(1)) tiene la forma:</p></li>
+</ul>
+<p><span class="math inline">\(y_t = p_1 y_{t-1} + e_{t}, \, t = 1, 2,
+...., k\)</span></p>
+<ul>
+<li>El punto de partida es la secuencia es <span class="math inline">\(y_0\)</span> (en <span class="math inline">\(t =
+0\)</span>), y <span class="math inline">\(e_t\)</span> es una secuencia
+i.i.d. con media cero y varianza <span class="math inline">\(\sigma_e^2\)</span>. También se supone que las
+<span class="math inline">\(e_t\)</span> son independientes de <span class="math inline">\(y_0\)</span> así como que <span class="math inline">\(E(y_0) = 0\)</span>, y que <span class="math inline">\(|p_1|&lt;1\)</span> para que las series sean
+débilmente dependientes.</li>
+</ul>
+</div>
+<div id="procesos-estocásticos-altamente-persistentes" class="section level2">
+<h2>9.3. Procesos estocásticos altamente persistentes</h2>
+<ul>
+<li><p>Proceso de raíz unitaria viene del hecho de que <span class="math inline">\(p_1 = 1\)</span>.</p></li>
+<li><p>La varianza de un proceso de raíz unitaria aumenta como una
+función del tiempo.</p></li>
+<li><p>Cuando en una ecuación de regresión se usan procesos estocásticos
+altamente persistentes se pueden violar los supuestos del MCL.</p></li>
+<li><p>Comúnmente los procesos de raíz unitaria son integrados de orden
+uno, o I(1). Esto significa que la primera diferencia del proceso es
+débilmente dependiente (y a menudo estacionaria).</p></li>
+<li><p>Una serie de tiempo I(1) a menudo se considera un proceso
+estacionario en diferencias, aun cuando en cierto modo el nombre es
+engañoso respecto al énfasis que se pone en la estacionariedad después
+de la diferenciación, en vez de la <strong>dependencia débil en las
+diferencias</strong>.</p></li>
+</ul>
+<p><span class="math inline">\(\Delta y_t = y_t - y_{t-1} = e_t, \, t =
+2, 3, ...., k\)</span></p>
+<p><label for="tufte-mn-10" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-10" class="margin-toggle"><span class="marginnote"><span style="display: block;">Cuando las series en
+cuestión tienen una tendencia marcada hacia arriba o hacia abajo, es
+mejor obtener la autocorrelación de primer orden después de eliminar tal
+tendencia.</span></span></p>
+</div>
+</div>
+<div id="s10-pruebas-de-raíz-unitaria" class="section level1">
+<h1>S10: Pruebas de raíz unitaria</h1>
+<div id="datos-de-la-sesión-9" class="section level2">
+<h2>10.1. Datos de la sesión</h2>
+<p><strong>Fecha de la sesión:</strong> 2022-10-19</p>
+</div>
+<div id="script-2" class="section level2">
+<h2>10.2. Script</h2>
+<pre class="r"><code># Librerias ----
+library(dplyr)
+library(tidyverse)
+library(tseries)
+library(urca)
+library(lubridate)
+
+
+# Serie de ruido blanco
+white_noise &lt;- rnorm(10000)
+ts.plot(white_noise)
+
+
+# Dickey-Fuller aumentada
+wn_adf &lt;- ur.df(white_noise, type =&quot;none&quot;, selectlags = &quot;BIC&quot;)
+summary(wn_adf)
+
+# Phillip-Perron
+wn_pp &lt;- ur.pp(white_noise, type = &quot;Z-tau&quot;, model = &quot;constant&quot;, lags = &quot;short&quot;)
+summary(wn_pp)
+
+# KPSS
+wn_kpss &lt;- ur.kpss(white_noise, type = &quot;tau&quot;, use.lag = 1)
+summary(wn_kpss)
+
+# Data
+data(nporg)
+gnp &lt;- nporg %&gt;% select(gnp.r) %&gt;% drop_na(gnp.r)
+gnp &lt;- ts(gnp)
+ts.plot(gnp)
+
+d_gnp &lt;- diff(gnp)
+ts.plot(d_gnp)
+ts.plot(white_noise)</code></pre>
+</div>
+</div>
+<div id="s11-autocorrelación" class="section level1">
+<h1>S11: Autocorrelación</h1>
+<div id="datos-de-la-sesión-10" class="section level2">
+<h2>11.1. Datos de la sesión</h2>
+<p><strong>Fecha de la sesión:</strong> 2022-10-19</p>
+<p><strong>Lecturas obligatorias:</strong></p>
+<ul>
+<li>Wooldridge - Cap. 12.1</li>
+</ul>
+</div>
+<div id="propiedadades-de-los-mco-con-errores-correlacionados-serialmente" class="section level2">
+<h2>Propiedadades de los MCO con errores correlacionados
+serialmente</h2>
+<p><strong>Teorema ST.1: Insesgamiento de los estimadores de
+MCO</strong></p>
+<p>Bajo los supuestos ST.1, ST.2, y ST.3, los estimadores de MCO son
+insesgados condicionales sobre <span class="math inline">\(\textbf{X}\)</span>, y por tanto también
+incondicionalmente: <span class="math inline">\(\mathsf{E}(\widehat{\beta}_j) = \beta_j, \, j = 0,
+\, 1, \, ..., \, k.\)</span></p>
+<p><strong>Teorema ST.4: Teorema Gauss-Markov</strong></p>
+<p>Bajo los supuestos ST.1 a ST.5, los estimadores de MCO son los
+mejores estimadores lineales insesgados condicionales sobre <span class="math inline">\(\textbf{X}\)</span>.</p>
+<ul>
+<li><p>Los estimadores MCO ya no son BLUE en presencia de correlación
+serial.</p></li>
+<li><p>Los errores estándar usuales de MCO y los estadísticos de prueba
+pierden validez.</p></li>
+<li><p>El estimador usual de la varianza es sesgado para <span class="math inline">\(Var(\widehat{\beta}_1)\)</span> en presencia de
+correlación serial.</p></li>
+</ul>
+</div>
+</div>
+<div id="s12-autocorrelación-en-r" class="section level1">
+<h1>S12: Autocorrelación en R</h1>
+<div id="datos-de-la-sesión-11" class="section level2">
+<h2>12.1. Datos de la sesión</h2>
+<p><strong>Fecha de la sesión:</strong> 2022-10-19</p>
+</div>
+<div id="script-3" class="section level2">
+<h2>12.2. Script</h2>
+<pre class="r"><code># Librerias ----
+library(dplyr)
+library(tidyverse)
+library(tseries)
+library(purrr)
+library(urca)
+# devtools::install_github(&quot;KevinKotze/tsm&quot;)
+library(tsm)
+library(forecast)
+
+
+# Serie AR
+set.seed(123)
+
+x &lt;- arima.sim(model = list(ar = 0.8), n = 1000)
+plot.ts(x)
+
+ac(x, max.lag = 30)
+
+Box.test(x, lag = 1, type = &quot;Ljung-Box&quot;)
+
+q.stat &lt;- rep(0, 10)
+q.prob &lt;- rep(0, 10)
+
+for (i in 1:10) {
+  q.stat[i] &lt;- Box.test(x, lag = i, type = &quot;Ljung-Box&quot;)$statistic
+  q.prob[i] &lt;- Box.test(x, lag = i, type = &quot;Ljung-Box&quot;)$p.value
+  
+}
+
+par(mfrow = c(1, 2))
+plot(q.stat)
+plot(q.prob)
+
+arima100 &lt;- arima(x, order = c(1, 0, 0), include.mean  = FALSE)
+arima100
+
+par(mfrow = c(1, 1))
+plot(arima100$residuals)
+
+ac(arima100$residuals, max.lag = 30)
+
+for (i in 1:10) {
+  q.stat[i] &lt;- Box.test(arima100$residuals, lag = i, type = &quot;Ljung-Box&quot;)$statistic
+  q.prob[i] &lt;- Box.test(arima100$residuals, lag = i, type = &quot;Ljung-Box&quot;)$p.value
+}
+
+plot(q.stat)
+plot(q.prob)
+
+# Serie MA
+y &lt;- arima.sim(model = list(ma = 0.8), n = 1000)
+plot(y)
+
+ac(y, max.lag = 30)
+
+arima001 &lt;- arima(y, order = c(0, 0, 1), include.mean  = FALSE)
+ac(arima001$residuals, max.lag = 30)
+
+# Serie ARMA
+z &lt;- arima.sim(model = list(ar = c(0.6, -0.2), ma = c(0.4)), n = 1000)
+ac(z, max.lag = 30)
+
+arima302 &lt;- arima(z, order = c(3, 0, 2), include.mean  = FALSE)
+ac(arima302$residuals, max.lag = 30)
+
+arima201 &lt;- arima(z, order = c(2, 0, 1), include.mean  = FALSE)
+ac(arima201$residuals, max.lag = 30)
+
+arima302$aic
+arima201$aic</code></pre>
+</div>
+</div>
 
 
 
