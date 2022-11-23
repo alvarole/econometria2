@@ -734,5 +734,176 @@ arima302$aic
 arima201$aic
 ```
 
+# S13: Heterocedasticidad en series de tiempo
+
+## 13.1. Datos de la sesión
+
+**Fecha de la sesión:** 
+2022-11-14
+
+**Lecturas obligatorias:**
+
+- Wooldridge - Cap. 12.6
+
+## 13.2. Algunas consideraciones
+
+- La heterocedasticidad no ocasiona ni sesgo ni inconsistencia en los estimadores MCO de las $\beta_j$.
+
+- Tampoco afecta a las medidas de bondad de ajuste.
+
+- Tiene un efecto sobre los errores estándares, y por tanto, en los estadísticos $t$ y $F$ de la estimación. Es decir, las pruebas de hipótesis bajo los supuestos Gauss-Markov ya no son válidas en presencia de heterocedasticidad.
+
+## 13.3. Script
+
+```{r, echo = T, eval = FALSE, error=FALSE, warning=FALSE, message=FALSE}
+# Librerias
+library(dplyr)
+library(tidyverse)
+library(tseries)
+library(purrr)
+library(urca)
+library(lmtest)
+library(wooldridge)
+
+# Ejemplo 1
+
+## Data
+data(mtcars)
+
+## Modelo
+model.1 <- lm(mpg ~ disp + hp, data = mtcars)
+summary(model.1)
+## Test de Breusch-Pagan
+bptest <- lm(residuals(model.1)^2 ~ mtcars$disp + mtcars$hp) #manual
+summary(bptest)
+bptest(model.1)
+
+# Ejemplo 2
+
+## Data
+data("wage1")
+
+## Modelo
+model.2 <- lm(lwage ~ female + married + educ + exper + expersq + tenure + tenursq, data = wage1)
+summary(model.2)
+## Test de Breusch-Pagan
+bptest(model.2)
+## Creación de pesos
+wts <- 1/fitted(lm(abs(residuals(model.2)) ~ wage1$female + wage1$married + wage1$educ + wage1$exper + wage1$expersq + wage1$tenure + wage1$tenursq))^2
+## Modelo ponderado
+model.2.1 <- lm(lwage ~ female + married + educ + exper + expersq + tenure + tenursq, data = wage1, weights = wts)
+summary(model.2.1)
+## Test de Breusch-Pagan
+bptest(model.2.1)
+
+# Ejemplo 3
+data("nyse") 
+
+nyse <- nyse %>% 
+  drop_na(return_1)
+
+## Modelo
+model.3 <- lm(return ~ return_1, data = nyse)
+summary(model.3)
+## Test Breush-Pagan
+bptest(model.3)
+```
+# S14: Modelos con rezagos infinitos
+
+## 14.1. Datos de la sesión
+
+**Fecha de la sesión:** 
+2022-11-18
+
+**Lecturas obligatorias:**
+
+- Wooldridge - Cap. 18.1
+
+## 14.2. Modelos de rezagos distribuidos infinitos
+
+- Considerando un proceso bivariado de series de tiempo ${(y_t, z_t): t = \, …, \, -2, -1, 0, 1, 2, \,…}$. Un modelo de rezago distribuido infinito (RDI) que relaciona $y_t$ con todos los valores actuales y pasados de $z$ es:
+
+$y_t = \alpha + \delta_0z_t + \delta_1z_1 + \delta_2z_2 + \, ...\, + u_t$
+
+donde la suma de las $z$ rezagadas se extiende a un pasado indefinido, es decir que un modelo RDI no requiere que se turnque el rezago en un valor particular.
+
+- En los modelos RDI, los coeficientes de las variables rezagasdas, $\delta_j$, deben tender a cero a medida que $j \rightarrow \infty$.
+
+- En el modelo RDI, el impacto de la propensión es $\delta_0$. Por su parte, $\delta_j$  mide el cambio en el valor esperado de y después de $h$ periodos. .
+
+- Es decir, se supone que un cambio temporal en $z$ no tiene efecto a largo plazo en el valor esperado de $y: E(yh) =  \alpha + \delta_j \rightarrow \alpha$ conforme $j \rightarrow \infty$.
+
+- La propensión de largo plazo (PLP) es la suma de todos los coeficientes de los rezagos:
+
+$PLP = \delta_0 + \delta_1 + \delta_2 + \delta_3 + \, ....$
+
+- Debido a que $\delta_j$ debe converger a cero, la PLP suele aproximarse bien por una suma finita de la forma $\delta_0 + \delta_1 + \, ... \, + \delta_p$ para una $p$ suficientemente grande.
 
 
+- La PLP mide el cambio a largo plazo en el valor esperado de $y$ dado un incremento unitario permanente en $z$.
+
+
+## 14.3 Rezagos distribuidos de Koyck
+
+En este modelo, la $\delta_j$ depende de dos parámetros:
+
+$\delta_j = \gamma \rho^j, |\rho| < 1, j = 0, 1, 2, ...$
+j  j,   1, j  0, 1, 2, ….
+
+- El multiplicador de impacto (PI) en el RDG es $\delta_0 = \gamma$, y el multiplicado de largo plazo (PLP) es igual a $\gamma / (1-\rho)$. Ambos multiplicadores poseen el mismo signo que $\gamma$.
+
+- La estimación se realiza mediante:
+
+$y_t = \alpha_0 + \gamma z_t + \rho y_{t-1} + v_t$
+
+- Considerando que existe correlación entre $v_t$ y $y_{t-1}$, los estimadores son inconsistentes.
+
+**Solución:**
+
+- Estimador IV.
+
+- Se supone que $u_t$ sigue un proceso específico de correlación serial de la forma:
+
+$u_t = \rho u_{t-1} + e_t$
+
+Es decir, se supone que  $u_t$ sigue un proceso AR(1) con la misma $\rho$ que aparece en la ecuación de estimación. 
+
+Considerando que $E(e_t |X)  = 0$, la ecuación para la estimación se puede escribir como:
+
+$y_t = \alpha_0 + \gamma z_t + \rho y_{t-1} + e_t$
+
+Además, si $Var(e_t | X) = \sigma^2_e$, aplican los principios de inferencia acostumbrados.
+
+# S15: R: Modelo con rezgo infinitos
+
+## 15.1. Datos de la sesión
+2022-11-21
+
+## 15.2. Script
+
+```{r, echo = T, eval = FALSE, error=FALSE, warning=FALSE, message=FALSE}
+
+# Libraries ----
+library(dplyr)
+library(tidyverse)
+library(tseries)
+library(purrr)
+library(urca)
+library(lmtest)
+library(wooldridge)
+
+# Data ----
+data("hseinv")
+
+hseinv <- hseinv %>% 
+  mutate(gprice_1 = lag(gprice),
+         t = row_number())
+
+plot(y = hseinv$linvpc, x = hseinv$year)
+
+koyck <- lm(linvpc ~ gprice + linvpc_1 + year, data = hseinv)
+summary(koyck)
+
+rdr <- lm(linvpc ~ gprice + linvpc_1 + gprice_1 + year, data = hseinv)
+summary(rdr)
+```
